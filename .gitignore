@@ -3,3 +3,5 @@ __pycache__/
 *.pyc
 .env
 crush-work-*
+models/
+!models/README.md

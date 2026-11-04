@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Blast Radius Zero</title>
+<style>
+  :root{--bg:#0b0d10;--panel:#14181d;--fg:#e6edf3;--dim:#8b949e;--ok:#3fb950;--bad:#f85149;--acc:#58a6ff}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+  header{padding:20px 24px;border-bottom:1px solid #21262d;display:flex;gap:12px;align-items:baseline}
+  h1{font-size:18px;margin:0}
+  .sub{color:var(--dim);font-size:13px}
+  main{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:16px 24px 40px}
+  @media(max-width:900px){main{grid-template-columns:1fr}}
+  .panel{background:var(--panel);border:1px solid #21262d;border-radius:10px;padding:14px}
+  textarea{width:100%;min-height:150px;background:#0d1117;color:var(--fg);border:1px solid #30363d;border-radius:8px;padding:10px;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;resize:vertical}
+  button{margin-top:10px;background:var(--acc);color:#04121f;border:0;border-radius:8px;padding:9px 16px;font-weight:600;cursor:pointer}
+  button:disabled{opacity:.5;cursor:default}
+  .step{border:1px solid #21262d;border-radius:8px;margin-top:10px;padding:10px;background:#0d1117}
+  .step h3{margin:0 0 6px;font-size:13px;color:var(--dim);font-weight:600;display:flex;gap:8px}
+  .badge{font-size:11px;padding:1px 7px;border-radius:99px;border:1px solid}
+  .ok{color:var(--ok);border-color:#1f6f33}
+  .bad{color:var(--bad);border-color:#6e2320}
+  pre{margin:6px 0 0;white-space:pre-wrap;word-break:break-word;font:12px/1.45 ui-monospace,Menlo,Consolas,monospace;color:#c9d1d9}
+  .answer{margin-top:12px;padding:10px;border-left:3px solid var(--ok);background:#0d1117;border-radius:6px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Blast Radius Zero</h1>
+  <span class="sub">every execution runs in a disposable container — no network, 512 MB, 1 CPU, 15 s</span>
+</header>
+<main>
+  <section class="panel">
+    <label class="sub" for="task">Task</label>
+    <textarea id="task">Read this CSV, find the three months with the highest churn, and plot them.</textarea>
+    <button id="go">Run agent</button>
+  </section>
+  <section class="panel" id="out">
+    <div class="sub">No run yet.</div>
+  </section>
+</main>
+<script>
+const go = document.getElementById('go');
+const out = document.getElementById('out');
+const esc = s => (s ?? '').replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+
+go.addEventListener('click', async () => {
+  go.disabled = true;
+  out.innerHTML = '<div class="sub">Planning…</div>';
+  try {
+    const res = await fetch('/api/agent', {
+      method: 'POST',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify({task: document.getElementById('task').value, max_steps: 4})
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || res.statusText);
+    out.innerHTML = (data.steps || []).map(s => `
+      <div class="step">
+        <h3>step ${s.index + 1}
+          <span class="badge ${s.ok ? 'ok' : 'bad'}">${s.timed_out ? 'timed out' : (s.ok ? 'ok' : 'exit ' + s.ok)}</span>
+          <span class="sub">${s.duration_ms} ms</span>
+        </h3>
+        <div class="sub">${esc(s.thought)}</div>
+        <pre>${esc(s.code)}</pre>
+        ${s.stdout ? `<pre>${esc(s.stdout)}</pre>` : ''}
+        ${s.stderr ? `<pre style="color:#f85149">${esc(s.stderr)}</pre>` : ''}
+      </div>`).join('') +
+      `<div class="answer">${esc(data.answer || data.error || '')}</div>`;
+  } catch (e) {
+    out.innerHTML = `<div class="step"><span class="badge bad">error</span><pre>${esc(e.message)}</pre></div>`;
+  } finally {
+    go.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

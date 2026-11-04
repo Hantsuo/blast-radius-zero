@@ -1,0 +1,12 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      # Sibling-container orchestration. In production put this behind a proxy
+      # with an allow-list, or use the Vultr API to spawn throwaway instances.
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped

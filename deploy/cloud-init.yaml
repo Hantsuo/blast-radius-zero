@@ -1,0 +1,29 @@
+#cloud-config
+# Vultr Agent Rush - one-shot VM bootstrap.
+# Paste this into "Cloud-Init User-Data" when creating the instance, then edit
+# /opt/blast-radius-zero/.env on the box (or set it before boot).
+package_update: true
+packages:
+  - git
+  - docker.io
+  - docker-compose-v2
+write_files:
+  - path: /opt/brz-bootstrap.sh
+    permissions: "0755"
+    content: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      REPO="${REPO:-https://github.com/Hantsuo/blast-radius-zero.git}"
+      DEST=/opt/blast-radius-zero
+      if [ ! -d "$DEST/.git" ]; then
+        git clone "$REPO" "$DEST"
+      else
+        git -C "$DEST" pull --ff-only
+      fi
+      cd "$DEST"
+      [ -f .env ] || cp .env.example .env
+      docker compose up -d --build
+      sleep 5
+      curl -fsS http://127.0.0.1:8000/healthz && echo
+runcmd:
+  - [ bash, /opt/brz-bootstrap.sh ]

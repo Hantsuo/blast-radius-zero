@@ -64,24 +64,25 @@ def _truncate(text: str) -> str:
 
 
 def run_python(code: str, *, timeout: int | None = None) -> RunResult:
-    """Execute `code` in a fresh container and return what happened."""
+    """Execute `code` in a fresh container and return what happened.
+
+    The code goes in over stdin (`python -u -`), not through a bind mount. The
+    app may itself run in a container, where a host temp path is not visible to
+    its sibling — stdin keeps the two independent and exposes no host path.
+    """
     timeout = timeout or WALL_TIMEOUT
     run_id = uuid.uuid4().hex[:12]
     name = f"crush-{run_id}"
-    workdir = tempfile.mkdtemp(prefix="crush-work-")
     started = time.perf_counter()
     try:
-        with open(os.path.join(workdir, "main.py"), "w", encoding="utf-8") as fh:
-            fh.write(code)
-
         cmd = [
-            "docker", "run", "--rm", "--name", name, *_CONTAINMENT,
-            "-v", f"{workdir}:/work", "-w", "/work",
-            IMAGE, "python", "-u", "/work/main.py",
+            "docker", "run", "--rm", "-i", "--name", name, *_CONTAINMENT,
+            "-w", "/tmp",
+            IMAGE, "python", "-u", "-",
         ]
         try:
             proc = subprocess.run(
-                cmd, capture_output=True, text=True,
+                cmd, input=code, capture_output=True, text=True,
                 encoding="utf-8", errors="replace", timeout=timeout,
             )
             elapsed = int((time.perf_counter() - started) * 1000)
@@ -112,4 +113,6 @@ def run_python(code: str, *, timeout: int | None = None) -> RunResult:
                 notes=[f"wall clock exceeded {timeout}s, container killed"],
             )
     finally:
-        shutil.rmtree(workdir, ignore_errors=True)
+        # `--rm` handles the container; nothing else is left on the host.
+        pass
+

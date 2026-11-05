@@ -1,9 +1,16 @@
 FROM python:3.12-slim
 
-# The app orchestrates sibling containers through the Docker socket.
+# The app orchestrates sibling containers through the Docker socket, so it
+# needs the Docker CLI. Static binary keeps the image small and avoids apt.
+ARG DOCKER_VERSION=27.3.1
 RUN apt-get update \
- && apt-get install -y --no-install-recommends docker.io \
- && rm -rf /var/lib/apt/lists/*
+ && apt-get install -y --no-install-recommends curl ca-certificates \
+ && curl -fsSL "https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz" -o /tmp/docker.tgz \
+ && tar -xzf /tmp/docker.tgz -C /tmp \
+ && mv /tmp/docker/docker /usr/local/bin/docker \
+ && chmod +x /usr/local/bin/docker \
+ && rm -rf /tmp/docker /tmp/docker.tgz /var/lib/apt/lists/* \
+ && docker --version
 
 WORKDIR /srv
 COPY requirements.txt .

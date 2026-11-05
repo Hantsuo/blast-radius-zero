@@ -86,7 +86,43 @@ right before it is destroyed.
 | `socket.create_connection(('1.1.1.1', 53))` | `NETWORK BLOCKED OSError`, 392 ms |
 | `docker ps --format '{{.Names}}'` right after | empty |
 
-## Vultr integration (what runs where)
+## Stale-answer detector (Geek Room track)
+
+The same repo carries a second product for the **Geek Room Global AI Hackathon**
+problem statement *"Build a Stale-Answer Detector for AI Applications"*: given an
+answer produced by another model, find the claims that can rot, re-check each one
+against live web sources through **Tavily**, and return a freshness score with
+receipts.
+
+```bash
+curl -s localhost:8000/api/verify -H 'content-type: application/json' -d '{
+  "answer": "GPT-4 Turbo was released in November 2023 and supports 128k tokens.",
+  "days": 45
+}' | jq
+```
+
+Four signals, all visible in the response — no hidden model:
+
+| Signal | Weight | What it measures |
+|---|---|---|
+| Source recency | 0.40 | median age of the sources that matched |
+| Number agreement | 0.30 | do the claim's figures still appear in the snippets |
+| Domain breadth | 0.15 | how many independent domains agree |
+| Self-dating | 0.15 | a claim that pins itself to an old year is capped at 0.35 |
+
+Measured against the live Tavily API on 2026-11-05:
+
+| Claim | Freshness | Verdict |
+|---|---|---|
+| "GPT-4 Turbo was released in November 2023, 128k context" | 0.35 | `stale` (capped: dates itself, 3 years old) |
+| "Vultr's smallest instance costs about $2.50/month" | 0.685 | `doubtful` (numbers still repeated, sources undated) |
+| "Agent Rush deadline is November 9, 2026" | 0.996 | `fresh` (three domains, all within a week) |
+
+`python tests/test_stale.py` pins the scoring rules offline (5 checks, no
+network). The deck for that submission is generated from code:
+`python tools/make_deck.py` → `docs/geekroom-deck.pptx`.
+
+
 
 | Piece | Vultr service | Status |
 |---|---|---|
